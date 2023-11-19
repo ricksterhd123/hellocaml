@@ -61,3 +61,6 @@ let rec reverse x =
   match x with
     | [] -> []
     | y :: ys -> merge_list (reverse (ys)) [y]
+
+(* Is list palindrome? *)
+let is_palindrome x = (list_equal x (reverse x))

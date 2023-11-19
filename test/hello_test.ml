@@ -47,3 +47,7 @@ test "#merge_list.6" (Hello.list_equal (Hello.merge_list [1;2] [3; 4]) [1;2;3;4]
 (* reverse *)
 test "#reverse.1" (Hello.list_equal (Hello.reverse [1;2;3]) ([3;2;1]));;
 test "#reverse.2" (Hello.list_equal (Hello.reverse [5;4;3;2;1]) ([1;2;3;4;5]));;
+
+(* is_palindrome *)
+test "#is_palindrome.1" (Hello.is_palindrome [1;2;2;1]);;
+test "#is_palindrome.2" (not (Hello.is_palindrome [1;2]));;
