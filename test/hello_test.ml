@@ -12,3 +12,5 @@ test "#last_two.1" ((Hello.last_two [1;2;3;4;5]) = Some (4, 5));;
 test "#last_two.2" ((Hello.last_two [1]) = None);;
 test "#last_two.3" ((Hello.last_two []) = None);;
 test "#last_nth.1" ((Hello.list_nth [1;2;3;4;5] 4) = Some 5);;
+test "#length.1" ((Hello.length [1;2;3;4;5]) = Some 5);;
+test "#length.2" ((Hello.length []) = Some 0);;

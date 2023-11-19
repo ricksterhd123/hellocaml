@@ -18,3 +18,10 @@ let rec list_nth x n =
     | ([], _) -> None
     | (y::_, 0) -> Some y
     | (_::ys, n) -> list_nth ys (n - 1)
+
+let length x =
+  let rec length_iter x n = 
+    match (x, n) with 
+      | ([], n) -> Some n
+      | (_ :: ys, _) -> length_iter ys (n + 1)
+in length_iter x 0;;
