@@ -19,6 +19,7 @@ let rec list_nth x n =
     | (y::_, 0) -> Some y
     | (_::ys, n) -> list_nth ys (n - 1)
 
+(* Get the length of a list *)
 let length x =
   let rec length_iter x n = 
     match (x, n) with 
