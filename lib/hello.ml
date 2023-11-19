@@ -1,5 +1,3 @@
-exception Error of string;;
-
 (* Get the last element in a list *)
 let rec last x =
   match x with
@@ -17,6 +15,6 @@ let rec last_two x =
 (* Get nth element in a list *)
 let rec list_nth x n =
   match (x, n) with
-    | ([], _) -> raise (Error "Index out of bounds")
+    | ([], _) -> None
     | (y::_, 0) -> Some y
     | (_::ys, n) -> list_nth ys (n - 1)
