@@ -6,6 +6,14 @@ let rec list_equal list_a list_b =
     | ([], _) -> false
     | (b :: bs, c :: cs) -> (b = c) && (list_equal bs cs);;
 
+(* Check if two 'a option list are equal *)
+let list_option_equal list_opt_a list_opt_b =
+  match (list_opt_a, list_opt_b) with
+    | (None, None) -> true
+    | (_, None) -> false
+    | (None, _) -> false
+    | (Some b, Some c) -> list_equal b c;;
+
 (* Get the last element in a list *)
 let rec last x =
   match x with
@@ -35,11 +43,17 @@ let length x =
       | (_ :: ys, _) -> length_iter ys (n + 1)
 in length_iter x 0;;
 
-(* Get tail of a list *)
-let tail x = 
+(* Get head of a list *)
+let head x =
   match x with
-    | (_ :: xs) -> xs
-    | [] -> []
+    | [] -> None
+    | (x :: _) -> Some x
+
+(* Get tail of a list *)
+let tail x =
+  match x with
+    | [] -> None
+    | (_ :: xs) -> Some xs
 
 (* Append element onto end of list *)
 let rec list_append t v =
@@ -64,3 +78,18 @@ let rec reverse x =
 
 (* Is list palindrome? *)
 let is_palindrome x = (list_equal x (reverse x))
+
+(* Run-Length Encoding *)
+let encode x =
+  match x with
+    | [] -> []
+    | (first :: _) ->
+      let rec encode_iter list last count rle =
+        match (list, last, count, rle) with
+          | ([], last, count, rle) -> list_append rle (count, last)
+          | (l :: ls, last, count, rle) -> 
+              if l = last then
+                encode_iter ls l (count + 1) rle
+              else
+                encode_iter ls l 1 (list_append rle (count, last))
+      in encode_iter x first 0 []

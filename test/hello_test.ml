@@ -28,9 +28,15 @@ test "#last_nth.1" ((Hello.list_nth [1;2;3;4;5] 4) = Some 5);;
 test "#length.1" ((Hello.length [1;2;3;4;5]) = Some 5);;
 test "#length.2" ((Hello.length []) = Some 0);;
 
+(* head *)
+test "#head.1" ((Hello.head [1;2;3;4]) = Some 1);;
+test "#head.2" ((Hello.head [3;4]) = Some 3);;
+test "#head.3" ((Hello.head []) = None);;
+
 (* tail *)
-test "#tail.1" (Hello.list_equal (Hello.tail [1;2;3;4]) [2;3;4]);;
-test "#tail.2" (Hello.list_equal (Hello.tail [2;3;4]) [3;4]);;
+test "#tail.1" (Hello.list_option_equal (Hello.tail [1;2;3;4]) (Some [2;3;4]));;
+test "#tail.2" (Hello.list_option_equal (Hello.tail [2;3;4]) (Some [3;4]));;
+test "#tail.2" ((Hello.tail []) = None);;
 
 (* list_append *)
 test "#list_append.1" (Hello.list_equal (Hello.list_append [1; 2; 3] 4) [1; 2; 3; 4]);;
@@ -51,3 +57,7 @@ test "#reverse.2" (Hello.list_equal (Hello.reverse [5;4;3;2;1]) ([1;2;3;4;5]));;
 (* is_palindrome *)
 test "#is_palindrome.1" (Hello.is_palindrome [1;2;2;1]);;
 test "#is_palindrome.2" (not (Hello.is_palindrome [1;2]));;
+
+(* encode *)
+test "#encode.1" (Hello.list_equal (Hello.encode ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"]) [(4, "a"); (1, "b"); (2, "c"); (2, "a"); (1, "d"); (4, "e")]);;
+test "#encode.2" (Hello.list_equal (Hello.encode ["a";"a";"a"]) [(3, "a")]);;
