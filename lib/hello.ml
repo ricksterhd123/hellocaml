@@ -156,3 +156,6 @@ let encode_modified x =
               else
                 encode_iter ls l 1 (list_append rle (encode_item count last))
       in encode_iter x first 0 []
+
+let%test "#encode_modified.1" = (list_equal (encode_modified ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"]) [Many (4, "a"); One "b"; Many (2, "c"); Many (2, "a"); One "d"; Many (4, "e")]);;
+let%test "#encode_modified.2" = (list_equal (encode_modified ["a";"a";"a"]) [Many (3, "a")]);;
