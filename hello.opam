@@ -8,6 +8,7 @@ bug-reports: "https://github.com/ricksterhd123/hellocaml/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.11"}
+  "ppx_inline_test"
   "odoc" {with-doc}
 ]
 build: [

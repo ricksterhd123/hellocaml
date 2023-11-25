@@ -14,6 +14,6 @@
 (package
  (name hello)
  (description "Intro to ocaml")
- (depends ocaml dune))
+ (depends ocaml dune ppx_inline_test))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
