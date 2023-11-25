@@ -138,6 +138,7 @@ let encode x =
 let%test "#encode.1" = (list_equal (encode ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"]) [(4, "a"); (1, "b"); (2, "c"); (2, "a"); (1, "d"); (4, "e")]);;
 let%test "#encode.2" = (list_equal (encode ["a";"a";"a"]) [(3, "a")]);;
 
+(* Modified Run-Length Encoding *)
 type 'a rle =
   | One of 'a
   | Many of int * 'a
