@@ -10,6 +10,7 @@ let%test "#test.list_equal.1" = (list_equal [1] [1]);;
 let%test "#test.list_equal.2" = (list_equal [1;2] [1;2]);;
 let%test "#test.list_equal.3" = (list_equal [1;2;3] [1;2;3]);;
 let%test "#test.list_equal.4" = (not (list_equal [1;2;3] []));;
+let%test "#test.list_equal.5" = (list_equal [] []);;
 
 (* Check if two 'a option list are equal *)
 let list_option_equal list_opt_a list_opt_b =
@@ -47,7 +48,8 @@ let rec list_nth x n =
     | (y::_, 0) -> Some y
     | (_::ys, n) -> list_nth ys (n - 1)
 
-let%test "#last_nth.1" = ((list_nth [1;2;3;4;5] 4) = Some 5);;
+let%test "#list_nth.1" = ((list_nth [1;2;3;4;5] 4) = Some 5);;
+let%test "#list_nth.2" = ((list_nth [1] 0) = Some 1);;
 
 (* Get the length of a list *)
 let length x =
@@ -195,3 +197,20 @@ let%test "#weird_split.1" = tuple_list_list_equal (weird_split [] 0) ([], [])
 let%test "#weird_split.2" = tuple_list_list_equal (weird_split [] 1) ([], [])
 let%test "#weird_split.3" = tuple_list_list_equal (weird_split ["a"; "b"] 1) (["a"], ["b"])
 let%test "#weird_split.4" = tuple_list_list_equal (weird_split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3) (["a"; "b"; "c"], ["d"; "e"; "f"; "g"; "h"; "i"; "j"])
+
+let remove_at n x =
+  if n >= 0 then
+    let nth_element = list_nth x n in
+    match nth_element with
+      | None -> x
+      | Some element -> List.filter (fun y -> y <> element) (x)
+  else
+    x
+
+let%test "#remove_at.1" = list_equal (remove_at 0 ["a"]) []
+let%test "#remove_at.2" = list_equal (remove_at 0 []) []
+let%test "#remove_at.3" = list_equal (remove_at (-1) []) []
+let%test "#remove_at.4" = list_equal (remove_at 1 ["a"; "b"; "c"; "d"]) ["a"; "c"; "d"]
+let%test "#remove_at.5" = list_equal (remove_at 2 ["a"; "b"; "c"; "d"]) ["a"; "b"; "d"]
+let%test "#remove_at.6" = list_equal (remove_at 1 ["a"]) ["a"]
+let%test "#remove_at.7" = list_equal (remove_at 2 ["a"; "b"]) ["a"; "b"]
