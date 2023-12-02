@@ -163,6 +163,7 @@ let encode_modified x =
 let%test "#encode_modified.1" = (list_equal (encode_modified ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"]) [Many (4, "a"); One "b"; Many (2, "c"); Many (2, "a"); One "d"; Many (4, "e")]);;
 let%test "#encode_modified.2" = (list_equal (encode_modified ["a";"a";"a"]) [Many (3, "a")]);;
 
+(* Duplicate the elements of a list *)
 let rec duplicate x =
   match x with
     | [] -> []
@@ -178,7 +179,7 @@ let tuple_list_list_equal (ax, ay) (bx, by) = (list_equal ax bx) && (list_equal 
 let%test "#tuple_list_list_equal.1" = tuple_list_list_equal ([], []) ([], [])
 let%test "#tuple_list_list_equal.2" = tuple_list_list_equal (["a"; "a"], ["b"; "b"]) (["a"; "a"], ["b"; "b"])
 
-(* split list into two parts where the first part is at most the length of n *)
+(* Split a list into two parts; the length of the first part is given *)
 let weird_split x n =
   if n > 0 then
     let rec split x first last =
@@ -198,6 +199,7 @@ let%test "#weird_split.2" = tuple_list_list_equal (weird_split [] 1) ([], [])
 let%test "#weird_split.3" = tuple_list_list_equal (weird_split ["a"; "b"] 1) (["a"], ["b"])
 let%test "#weird_split.4" = tuple_list_list_equal (weird_split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3) (["a"; "b"; "c"], ["d"; "e"; "f"; "g"; "h"; "i"; "j"])
 
+(* Remove the k'th element from a list *)
 let remove_at n x =
   if n >= 0 then
     let nth_element = list_nth x n in
