@@ -53,12 +53,12 @@ let%test "#last_nth.1" = ((list_nth [1;2;3;4;5] 4) = Some 5);;
 let length x =
   let rec length_iter x n = 
     match (x, n) with 
-      | ([], n) -> Some n
+      | ([], n) -> n
       | (_ :: ys, _) -> length_iter ys (n + 1)
 in length_iter x 0;;
 
-let%test "#length.1" = ((length [1;2;3;4;5]) = Some 5);;
-let%test "#length.2" = ((length []) = Some 0);;
+let%test "#length.1" = ((length [1;2;3;4;5]) = 5);;
+let%test "#length.2" = ((length []) = 0);;
 
 (* Get head of a list *)
 let head x =
@@ -169,3 +169,25 @@ let rec duplicate x =
 let%test "#duplicate.1" = (list_equal (duplicate []) [])
 let%test "#duplicate.2" = (list_equal (duplicate ["a"]) ["a"; "a"])
 let%test "#duplicate.3" = (list_equal (duplicate ["a"; "b"; "c"; "c"; "d"]) ["a"; "a"; "b"; "b"; "c"; "c"; "c"; "c"; "d"; "d"])
+
+(* Helper function to test equality of (list 'a * list 'a) *)
+let tuple_list_list_equal (ax, ay) (bx, by) = (list_equal ax bx) && (list_equal ay by)
+
+let%test "#tuple_list_list_equal.1" = tuple_list_list_equal ([], []) ([], [])
+let%test "#tuple_list_list_equal.2" = tuple_list_list_equal (["a"; "a"], ["b"; "b"]) (["a"; "a"], ["b"; "b"])
+
+(* split list into two parts where the first part is at most the length of n *)
+let weird_split x n =
+  if n > 0 then
+    let rec split x first last =
+      match x with
+        | [] -> (first, last)
+        | (x :: xs) -> split xs (if (length first) < n then list_append first x else first) (if (length first) < n then last else list_append last x) in
+    split x [] []
+  else
+    ([], [])
+
+let%test "#weird_split.1" = tuple_list_list_equal (weird_split [] 0) ([], [])
+let%test "#weird_split.2" = tuple_list_list_equal (weird_split [] 1) ([], [])
+let%test "#weird_split.3" = tuple_list_list_equal (weird_split ["a"; "b"] 1) (["a"], ["b"])
+let%test "#weird_split.4" = tuple_list_list_equal (weird_split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3) (["a"; "b"; "c"], ["d"; "e"; "f"; "g"; "h"; "i"; "j"])
