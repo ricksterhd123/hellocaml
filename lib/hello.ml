@@ -239,6 +239,7 @@ let%test "#insert_at.2" = list_equal (insert_at "alfa" 0 ["a"]) ["alfa"; "a"]
 let%test "#insert_at.3" = list_equal (insert_at "alfa" 1 ["a"; "b"; "c"; "d"]) ["a"; "alfa"; "b"; "c"; "d"]
 let%test "#insert_at.4" = list_equal (insert_at "alfa" 2 ["a"; "b"]) ["a"; "b"; "alfa"]
 
+(* Create a list containing all integers within a given range *)
 let rec range a b =
   if a < b then
     let rec range_iter count result =
