@@ -238,3 +238,22 @@ let%test "#insert_at.1" = list_equal (insert_at "alfa" 0 []) ["alfa"]
 let%test "#insert_at.2" = list_equal (insert_at "alfa" 0 ["a"]) ["alfa"; "a"]
 let%test "#insert_at.3" = list_equal (insert_at "alfa" 1 ["a"; "b"; "c"; "d"]) ["a"; "alfa"; "b"; "c"; "d"]
 let%test "#insert_at.4" = list_equal (insert_at "alfa" 2 ["a"; "b"]) ["a"; "b"; "alfa"]
+
+let rec range a b =
+  if a < b then
+    let rec range_iter count result =
+      if a + count > b then
+        result
+      else
+        range_iter (count + 1) (list_append result (a + count)) in
+    range_iter 0 []
+  else if a = b then
+    [a]
+  else
+    reverse (range b a)
+
+let%test "#range.1" = list_equal (range 4 4) [4]
+let%test "#range.2" = list_equal (range 4 5) [4; 5]
+let%test "#range.3" = list_equal (range 4 6) [4; 5; 6]
+let%test "#range.4" = list_equal (range 4 9) [4; 5; 6; 7; 8; 9]
+let%test "#range.5" = list_equal (range (-9) (-4)) [-9;-8;-7;-6;-5;-4]
