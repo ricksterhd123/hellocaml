@@ -258,3 +258,8 @@ let%test "#range.2" = list_equal (range 4 5) [4; 5]
 let%test "#range.3" = list_equal (range 4 6) [4; 5; 6]
 let%test "#range.4" = list_equal (range 4 9) [4; 5; 6; 7; 8; 9]
 let%test "#range.5" = list_equal (range (-9) (-4)) [-9;-8;-7;-6;-5;-4]
+
+(* Lotto draw n different random numbers from set 1..m *)
+let lotto_select n m = List.map (fun _ -> (Random.int m) + 1) (range 1 n)
+
+let%test "#lotto_select.1" = length (lotto_select 6 49) = 6
