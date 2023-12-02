@@ -182,7 +182,11 @@ let weird_split x n =
     let rec split x first last =
       match x with
         | [] -> (first, last)
-        | (x :: xs) -> split xs (if (length first) < n then list_append first x else first) (if (length first) < n then last else list_append last x) in
+        | (x :: xs) -> 
+          if (length first) < n then
+            split xs (list_append first x) last
+          else
+            split xs first (list_append last x) in
     split x [] []
   else
     ([], [])
