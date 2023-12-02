@@ -160,3 +160,12 @@ let encode_modified x =
 
 let%test "#encode_modified.1" = (list_equal (encode_modified ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"]) [Many (4, "a"); One "b"; Many (2, "c"); Many (2, "a"); One "d"; Many (4, "e")]);;
 let%test "#encode_modified.2" = (list_equal (encode_modified ["a";"a";"a"]) [Many (3, "a")]);;
+
+let rec duplicate x =
+  match x with
+    | [] -> []
+    | (first :: xs) -> merge_list [first; first] (duplicate xs)
+
+let%test "#duplicate.1" = (list_equal (duplicate []) [])
+let%test "#duplicate.2" = (list_equal (duplicate ["a"]) ["a"; "a"])
+let%test "#duplicate.3" = (list_equal (duplicate ["a"; "b"; "c"; "c"; "d"]) ["a"; "a"; "b"; "b"; "c"; "c"; "c"; "c"; "d"; "d"])
