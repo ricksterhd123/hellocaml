@@ -217,3 +217,24 @@ let%test "#remove_at.5" = list_equal (remove_at 2 ["a"; "b"; "c"; "d"]) ["a"; "b
 let%test "#remove_at.6" = list_equal (remove_at 1 ["a"]) ["a"]
 let%test "#remove_at.7" = list_equal (remove_at 2 ["a"; "b"]) ["a"; "b"]
 let%test "#remove_at.8" = list_equal (remove_at 3 ["a"; "b"]) ["a"; "b"]
+
+(* Insert an element at a given position into a list *)
+let insert_at value n list =
+  if n >= 0 then
+    if length list <= 0 then
+      [value]
+    else if length list < n then
+      list_append list value
+    else
+      let rec insert_value count src dest =
+        match src with
+            | [] -> if count = n then list_append dest value else dest
+            | (s :: ss) -> insert_value (count + 1) ss (merge_list dest (if count = n then [value; s] else [s])) in
+      insert_value 0 list []
+  else
+    list
+
+let%test "#insert_at.1" = list_equal (insert_at "alfa" 0 []) ["alfa"]
+let%test "#insert_at.2" = list_equal (insert_at "alfa" 0 ["a"]) ["alfa"; "a"]
+let%test "#insert_at.3" = list_equal (insert_at "alfa" 1 ["a"; "b"; "c"; "d"]) ["a"; "alfa"; "b"; "c"; "d"]
+let%test "#insert_at.4" = list_equal (insert_at "alfa" 2 ["a"; "b"]) ["a"; "b"; "alfa"]
