@@ -216,3 +216,4 @@ let%test "#remove_at.4" = list_equal (remove_at 1 ["a"; "b"; "c"; "d"]) ["a"; "c
 let%test "#remove_at.5" = list_equal (remove_at 2 ["a"; "b"; "c"; "d"]) ["a"; "b"; "d"]
 let%test "#remove_at.6" = list_equal (remove_at 1 ["a"]) ["a"]
 let%test "#remove_at.7" = list_equal (remove_at 2 ["a"; "b"]) ["a"; "b"]
+let%test "#remove_at.8" = list_equal (remove_at 3 ["a"; "b"]) ["a"; "b"]
